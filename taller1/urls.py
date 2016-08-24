@@ -16,6 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from crawling import views as crawling_views
+from rss import views as rss_views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^rss/query', rss_views.query, name = 'query'),
+    url(r'^rss/', rss_views.homerss, name = 'homerss'),
+    url(r'^crawling/', crawling_views.homecrawling, name = 'homecrawling'),
+   
 ]
