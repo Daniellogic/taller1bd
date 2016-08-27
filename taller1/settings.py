@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'rss',
 # instalacion de feedparser para RSS
     'django_feedparser',
-    'yarr',
 ]
 
 MIDDLEWARE = [

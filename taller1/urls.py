@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^rss/query', rss_views.query, name = 'query'),
     url(r'^rss/', rss_views.homerss, name = 'homerss'),
     url(r'^crawling/', crawling_views.homecrawling, name = 'homecrawling'),
-   
+ 
 ]
