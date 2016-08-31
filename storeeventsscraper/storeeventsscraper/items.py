@@ -18,6 +18,7 @@ class StoreeventsscraperItem(scrapy.Item):
 #    django_model = Event
 
 class UniandesItem(scrapy.Item):
+    domain = scrapy.Field()
     title = scrapy.Field()
     dates = scrapy.Field()
     desc = scrapy.Field()

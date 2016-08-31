@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crawling',
     'rss',
-# instalacion de feedparser para RSS
-    'django_feedparser',
+
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,6 @@
 import scrapy
-from scrapy.spiders import CrawlSpider, Rule
-from scrapy.linkextractors import LinkExtractor
+from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from urlparse import urlparse
 
@@ -10,9 +10,7 @@ class UniandesSpider(CrawlSpider):
     name="uniandes"
     allowed_domains = ["uniandes.edu.co"]
     start_urls = [
-#        "http://uniandes.edu.co/",
-#        "http://www.uniandes.edu.co/mapa-del-sitio-1",
-        "https://facartes.uniandes.edu.co/",
+        "http://uniandes.edu.co/",
 #        "http://eventos.uniandes.edu.co/",
 #        "http://eventos.uniandes.edu.co/s/1384/events/social2.aspx?sid=1384&gid=26&sitebuilder=1&pgid=1250&sitebuilder=1&contentbuilder=1",
 #        "http://ingenieria.uniandes.edu.co/paginas/home.aspx",
@@ -20,14 +18,11 @@ class UniandesSpider(CrawlSpider):
     ]
     
     rules = (
-        #Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@href,"facultades")]',))),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@title,"Facultad")]',))),
-        #Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@title,"Facultad") or contains(@title,"Departamento")]',))),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//div[contains(@class,"eventListing")]//tr[contains(@align,"top")]',)), callback="parse_items"),#, follow= True),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@href,"icalrepeat.detail")]',)),callback="parse_items"),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(translate(@href, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"detalleeventos")]',)),callback="parse_items"),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(translate(@class, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"ev_link_row")]',)),callback="parse_items"),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(translate(@href, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"event")]',))),
+        Rule(SgmlLinkExtractor(allow=(), restrict_xpaths=('//div[contains(@class,"eventListing")]//tr[contains(@align,"top")]',)), callback="parse_items"),#, follow= True),
+        Rule(SgmlLinkExtractor(allow=(), restrict_xpaths=('//*[contains(translate(@href, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"detalleeventos")]',)),callback="parse_items"),
+        Rule(SgmlLinkExtractor(allow=(), restrict_xpaths=('//*[contains(translate(@class, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"ev_link_row")]',)),callback="parse_items"),
+        Rule(SgmlLinkExtractor(allow=(), deny_domains=["http://eventos.uniandes.edu.co/"], restrict_xpaths=('//*[contains(translate(@href, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"event")]',))),
+        Rule(SgmlLinkExtractor(allow=(), restrict_xpaths=('//*[contains(@href,"facultades")]',))),
     )
     
     def parse_items(self, response):
@@ -60,15 +55,6 @@ class UniandesSpider(CrawlSpider):
             item['title'] = sel.xpath('.//div[contains(@class,"header")]//h2/text()').extract()
             item['dates'] = sel.xpath('.//div[contains(@class,"date")]//div/text()').extract()
             item['desc'] = sel.xpath('.//div[contains(@class,"description")]//*/text()').extract()
-            item['owner'] = sel.xpath('//a[starts-with(@href, "mailto")]/text()').extract()
-            yield item
-        #Eventos Artes
-        for sel in response.xpath('//div[@id="jevents_body"]'):
-            item = UniandesItem()
-            item['domain'] = domain
-            item['title'] = sel.xpath('.//span[contains(@class,"lu_event")]/text()').extract()
-            item['dates'] = sel.xpath('.//span[contains(@class,"hf_event")]/text()').extract()
-            item['desc'] = sel.xpath('.//p/text()').extract()
             item['owner'] = sel.xpath('//a[starts-with(@href, "mailto")]/text()').extract()
             yield item
     custom_settings = {
