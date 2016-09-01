@@ -74,7 +74,17 @@ def homecrawling(request):
     #events = events.filter(domain='http://ingenieria.uniandes.edu.co/')
     #print(events[1]['domain'])
     if request.GET.get('domainfilter'):
+        print("Filter domain")
         events = [ event for event in events if request.GET.get('domainfilter') in event['domain'] ] # "http://ingenieria.uniandes.edu.co/"
+    if request.GET.get('datefilter'):
+        print("Filter date")
+        print(request.GET.get('datefilter'))
+        for event in events:
+            print event['dates']
+        events = [ event for event in events if request.GET.get('datefilter') in str(event['dates']) ]
+    if request.GET.get('placefilter'):
+        print("Filter place")
+        events = [ event for event in events if request.GET.get('placefilter') in str(event['dates']) or request.GET.get('placefilter') in str(event['desc']) ]
     eventsTable = EventTable(events)
     RequestConfig(request).configure(eventsTable)
     return render(request, 'crawling.html', {'events': eventsTable, 'job_status': scrapyd_jobstatus,'job_id': scrapyd_jobid})#,{'job_status': scrapyd_jobstatus},{'job_id': scrapyd_jobid})
