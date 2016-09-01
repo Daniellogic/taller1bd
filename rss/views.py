@@ -38,7 +38,7 @@ def query(request):
     queryatt2 = request.GET['queryrss2']
     queryatt3 = request.GET['queryrss3']
     if queryatt != '': 
-        querytocomplete = "for $x in //rss/channel/item return if ($x/pubDate[contains(., '"+queryatt+"')]) then <title>{data($x/title)}</title> else nothing"
+        querytocomplete = "for $x at $i in //rss/channel/item return if ($x/pubDate[contains(., '"+queryatt+"')]) then <title>{$i}. { ($x/pubDate) }{data($x/title)}{ ($x/description) }</title> else nothing"
         print("en el if: " + queryatt)
     else :
         if queryatt2 != '': 
@@ -80,8 +80,8 @@ def query3(request):
 def regex(request):
     regex1 = requests.get('http://www.huffingtonpost.es/feeds/verticals/spain/index.xml')
     Dato = request.GET['regex']
-    answer = re.compile('Dato{1,20}\s', re.IGNORECASE)
-    totalanswer = re.findall()
+    answer = re.compile('</title>(.{1,15})(Dato)</title>', re.IGNORECASE)
+    totalanswer = re.findall(answer,regex1.text)
 
-    print("El request fue: " +queryatt2)
-    return HttpResponse(feedtitle2, content_type='application/json')   
+    print(totalanswer)
+    return HttpResponse(totalanswer)   

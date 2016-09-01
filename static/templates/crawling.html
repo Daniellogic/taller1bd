@@ -1,9 +1,17 @@
+{# tutorial/templates/people.html #}
+{% load render_table from django_tables2 %}
+<!doctype html>
 <html>
-  <head>
-    <title></title>
-    <meta content="">
-    <style></style>
-  </head>
-  <h1>Crawling</h1>
-  <body></body>
+    <head>
+        <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+    </head>
+    <body>
+      <h1>Crawling</h1>
+      <form method='GET' action='filterdomain'>
+        <h3>Filtrar por dominio</h3>
+        <input type='text' name="domainfilter">
+        <input type='submit' value='filtrar' class='btn btn-success btn-block'>
+      </form>
+        {% render_table events %}
+    </body>
 </html>

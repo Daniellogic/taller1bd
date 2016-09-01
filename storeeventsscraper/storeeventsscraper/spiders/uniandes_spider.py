@@ -15,8 +15,8 @@ class UniandesSpider(CrawlSpider):
          "https://economia.uniandes.edu.co/",
 #        "http://eventos.uniandes.edu.co/",
 #        "http://eventos.uniandes.edu.co/s/1384/events/social2.aspx?sid=1384&gid=26&sitebuilder=1&pgid=1250&sitebuilder=1&contentbuilder=1",
-#        "http://ingenieria.uniandes.edu.co/paginas/home.aspx",
-#         "http://administracion.uniandes.edu.co/",
+        "http://ingenieria.uniandes.edu.co/paginas/home.aspx",
+         "http://administracion.uniandes.edu.co/",
     ]
     
     rules = (
@@ -102,5 +102,5 @@ class UniandesSpider(CrawlSpider):
             item['owner'] = sel.xpath('.//a[starts-with(@href, "mailto")]/text()').extract()
             yield item
     custom_settings = {
-        'DEPTH_LIMIT': '2',
+        'DEPTH_LIMIT': '3',
     }
