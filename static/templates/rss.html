@@ -4,23 +4,28 @@
     <meta content="">
     <style></style>
   </head>
+  <body>
   <h1>RSS</h1>
-  <form  method='GET' action='query'>
-    <h2>Filtrado por titulo</h2>
+  <form  method="GET" action='query'>  
+    <h2>Filtrado por fecha publicacion</h2>
     <input type="text" name="queryrss"/>
     <input type="submit" value="Filtrar"/>
+    <h2>Filtrado por enlace</h2>
+    <input type="text" name="queryrss2"/>
+    <input type="submit" value="Filtrar"/>
+    <h2>Filtrado por titulo</h2>
+    <input type="text" name="queryrss3"/>
+    <input type="submit" value="Filtrar"/>
+     <h2>Filtrado por RegEX</h2>
+    <input type="text" name="regex"/>
+    <input type="submit" value="regex"/>
+    <P ALIGN=left><h2>Grupo 11</h2>
+    <P ALIGN=left><h2>Daniel Cardenas</h2>
+    <P ALIGN=left><h2>Robinson Navarro</h2>
+    <P ALIGN=left><h2>Mónica Montoya</h2>
   </form>
-
-  
-  <body></body>
+   
+  </body>
 </html>
-
-<!--
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Guardar</button>
-    </form>
-  -->
 
 

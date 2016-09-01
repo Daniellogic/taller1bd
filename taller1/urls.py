@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^rss/', rss_views.homerss, name = 'homerss'),
     url(r'^crawling/', crawling_views.homecrawling, name = 'homecrawling'),
     #url(r'^nuevo/', rss_views.rssview, name = 'rssviewss'),
+    url(r'^rss/filtrotitulo', rss_views.query, name = 'filtrotitulo'),
 ]
