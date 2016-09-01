@@ -11,19 +11,17 @@ class UniandesSpider(CrawlSpider):
     allowed_domains = ["uniandes.edu.co"]
     start_urls = [
 #        "http://uniandes.edu.co/",
-#        "http://www.uniandes.edu.co/mapa-del-sitio-1",
-         "https://economia.uniandes.edu.co/",
-#        "http://eventos.uniandes.edu.co/",
+        "http://www.uniandes.edu.co/mapa-del-sitio-1",
+#         "https://economia.uniandes.edu.co/",
+        "http://eventos.uniandes.edu.co/",
 #        "http://eventos.uniandes.edu.co/s/1384/events/social2.aspx?sid=1384&gid=26&sitebuilder=1&pgid=1250&sitebuilder=1&contentbuilder=1",
-        "http://ingenieria.uniandes.edu.co/paginas/home.aspx",
-         "http://administracion.uniandes.edu.co/",
+#        "http://ingenieria.uniandes.edu.co/paginas/home.aspx",
+#         "http://administracion.uniandes.edu.co/",
     ]
     
     rules = (
-        #Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@href,"facultades")]',))),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@title,"Facultad")]',))),
-        #Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@title,"Facultad") or contains(@title,"Departamento")]',))),
-        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//div[contains(@class,"eventListing")]//tr[contains(@align,"top")]',)), callback="parse_items"),#, follow= True),
+        Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@title,"Facultad") or contains(@title,"Departamento")]',))),
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('//div[contains(@class,"eventListing")]//tr[contains(@align,"top")]',)), callback="parse_items"),#, follow= True),
         Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(@href,"icalrepeat.detail")]',)),callback="parse_items"),
         Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(translate(@href, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"detalleeventos")]',)),callback="parse_items"),
         Rule(LinkExtractor(allow=(), deny=('eventos\.uniandes\.edu\.co'), restrict_xpaths=('//*[contains(translate(@class, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"ev_link_row")]',)),callback="parse_items"),

@@ -23,10 +23,13 @@ pyOpenSSL==16.1.0
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
 pycparser==2.14
+python-scrapyd-api==2.0.1
 python-simplexquery==1.0.5.3
 queuelib==1.4.2
 requests==2.11.0
 scrapy-djangoitem==1.1.1
+scrapyd==1.1.0
+scrapyd-client==1.0.1
 service-identity==16.0.0
 six==1.10.0
 w3lib==1.15.0
