@@ -37,6 +37,7 @@ def query(request):
     queryatt = request.GET['queryrss']
     queryatt2 = request.GET['queryrss2']
     queryatt3 = request.GET['queryrss3']
+    datoregex = request.GET['regex']
     if queryatt != '': 
         querytocomplete = "for $x at $i in //rss/channel/item return if ($x/pubDate[contains(., '"+queryatt+"')]) then <title>{$i}. { ($x/pubDate) }{data($x/title)}{ ($x/description) }</title> else nothing"
         print("en el if: " + queryatt)
@@ -45,21 +46,29 @@ def query(request):
             print("en el segundo if: " +queryatt2)
             querytocomplete = "for $x in //rss/channel/item return if ($x/link[contains(., '"+queryatt2+"')]) then <link>{data($x/link)}</link> else nothing"
         else :
-            print("en el else: " +queryatt3)
-            querytocomplete = "for $x in //rss/channel/item return if ($x/title[contains(., '"+queryatt3+"')]) then <title>{data($x/title)}</title> else nothing"
-    
-    ##querytocomplete= "for $x in //rss/channel/item return if ($x/pubDate[starts-with(., '"+queryatt+"')]) then <title>{data($x/title)}</title> else nothing"
-    #querytocomplete= "for $a in //rss/channel/item/pubDate where ends-with($a, '"+queryatt+"') return $a"
-    #querytocomplete= "for $a in //rss/channel/item where ends-with($a/pubDate, '"+queryatt+"') return $a"
-    #feedtitle = sxq.execute_all(".//rss/channel/item/[@title='"+queryatt+"']", feed.text)
-    #feedtitle = sxq.execute_all(".//rss/channel/item/pubDate='Tue, 30 Aug 2016 15:09:43 -0400'", feed.text)
+            if queryatt3 != '':
+                print("en el tercer if:" +queryatt3)
+                querytocomplete = "for $x in //rss/channel/item return if ($x/title[contains(., '"+queryatt3+"')]) then <title>{data($x/title)}</title> else nothing"
+                #feedtitle = sxq.execute_all(querytocomplete,feed.text)
+                #return HttpResponse(feedtitle, content_type='application/json')
+                print("fuera del if de:" +queryatt3)
+            else :
+                print("en el else final: " +datoregex)
+                querytocomplete = re.compile(r'<link>(.*)</link>', re.IGNORECASE)
+                totalanswer = re.findall(querytocomplete,feed.text)
+    #mostrartitulo = sxq.execute(".//rss/channel/item/title", feed.text)
+    #mostrardescripcion = sxq.execute_all(".//rss/channel/item/description", feed.text)
+    #mostrarfechas = sxq.execute_all(".//rss/channel/item/pubDate", feed.text)
+    #return HttpResponse(mostrartitulo, content_type='application/json')
+    #return HttpResponse(mostrardescripcion, content_type='application/json')
+    #return HttpResponse(mostrarfechas, content_type='application/json')
     feedtitle = sxq.execute_all(querytocomplete,feed.text)
-   
     print("El request fue: " +queryatt2)
     print("El request fue: " +queryatt3)
     return HttpResponse(feedtitle, content_type='application/json')
-    #return HttpResponse("Query OK " + queryatt)
-
+    return HttpResponse(totalanswer, str(feed))
+   
+    
 def query2(request):
     feed2 = requests.get('http://www.huffingtonpost.es/feeds/verticals/spain/index.xml')
     queryatt2 = request.GET['queryrss2']
@@ -80,8 +89,8 @@ def query3(request):
 def regex(request):
     regex1 = requests.get('http://www.huffingtonpost.es/feeds/verticals/spain/index.xml')
     Dato = request.GET['regex']
-    answer = re.compile('</title>(.{1,15})(Dato)</title>', re.IGNORECASE)
-    totalanswer = re.findall(answer,regex1.text)
+    answer = re.compile(r'<title>+' + re.escape(Dato) + r'</title>+', re.IGNORECASE)
+    totalanswer = re.findall(answer,str(regex1))
 
     print(totalanswer)
     return HttpResponse(totalanswer)   

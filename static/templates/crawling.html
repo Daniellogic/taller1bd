@@ -7,6 +7,25 @@
     </head>
     <body>
       <h1>Crawling</h1>
+      <form method='GET' action='new_run'>
+        <h3>Ejecutar crawler</h3>
+        job_status: {{ job_status }}
+        <br>
+        job_id: {{ job_id }}
+        <br>
+        <input type='text' name="new_run">
+        <input type='submit' value='new_run' class='btn btn-success btn-block'>
+      </form>
+      <form method='GET' action='check_status'>
+        <h3>Revisar estado crawler</h3>
+        <input type='text' name="check_status">
+        <input type='submit' value='check_status' class='btn btn-success btn-block'>
+      </form>
+      <form method='GET' action='cancel_run'>
+        <h3>Cancelar crawler</h3>
+        <input type='text' name="cancel_run">
+        <input type='submit' value='cancel_run' class='btn btn-success btn-block'>
+      </form>
       <form method='GET' action='filterdomain'>
         <h3>Filtrar por dominio</h3>
         <input type='text' name="domainfilter">
